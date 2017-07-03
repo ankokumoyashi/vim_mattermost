@@ -1,11 +1,6 @@
 import requests
 import json
-import neovim
 from operator import itemgetter
-
-# 各種情報を入力
-
-# TODO version変わったら考える
 
 
 class Mattermost:
@@ -36,10 +31,13 @@ class Mattermost:
         response = self.get(self.api_url + '/teams/name/' + team_name)
         return response.json()['id']
 
+    def get_users(self):
+        response = self.get(self.api_url + '/users/0/1000')
+        return response.json()
+
     def get_channels(self, team_id):
-        response = self.get(self.api_url + '/teams/' + team_id + '/channels/')
-        channels = [{'id':item['id'], 'name':item['name']} for item in response.json()]
-        return channels
+        response = self.get(self.api_url + '/teams/' + team_id + '/channels/').json()
+        return response
 
     def get_posts(self, team_id, channels, offset, limit):
         response = [self.get_posts_channel(team_id, channel['id'], offset, limit) for channel in channels]
@@ -63,14 +61,6 @@ class Mattermost:
         return response
 
 if __name__ == "__main__":
-    #mattermost_url = 'http://localhost:8065/'
-    #login_id = 'ankokumoyashi'
-    #password = 'ankokumoyashi'
-    #team_name = 'ponkotsu'
-    mattermost_url = 'http://masala.soft.fujitsu.com/'
-    login_id = 'g.inatomi@jp.fujitsu.com'
-    password = 'nin10gen'
-    team_name = 'fjspf'
     matter = Mattermost(mattermost_url, login_id, password)
     team_id = matter.get_team_id(team_name)
     channels = matter.get_channels(team_id)
