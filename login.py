@@ -1,5 +1,7 @@
 import requests
 import json
+import neovim
+from operator import itemgetter
 
 # 各種情報を入力
 
@@ -61,12 +63,18 @@ class Mattermost:
         return response
 
 if __name__ == "__main__":
-    mattermost_url = 'http://localhost:8065/'
-    login_id = 'ankokumoyashi'
-    password = 'ankokumoyashi'
-    team_name = 'ponkotsu'
+    #mattermost_url = 'http://localhost:8065/'
+    #login_id = 'ankokumoyashi'
+    #password = 'ankokumoyashi'
+    #team_name = 'ponkotsu'
+    mattermost_url = 'http://masala.soft.fujitsu.com/'
+    login_id = 'g.inatomi@jp.fujitsu.com'
+    password = 'nin10gen'
+    team_name = 'fjspf'
     matter = Mattermost(mattermost_url, login_id, password)
     team_id = matter.get_team_id(team_name)
     channels = matter.get_channels(team_id)
     all_channel_post = matter.get_posts(team_id, channels, 0, 10)
     all_posts = [posts['posts'][post] for posts in all_channel_post for post in posts['order']]
+    all_posts.sort(key=itemgetter('create_at'), reverse = True)
+    import pdb; pdb.set_trace()
