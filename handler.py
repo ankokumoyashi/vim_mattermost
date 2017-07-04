@@ -29,6 +29,12 @@ class Handler():
         channels = self.matter.get_channels(self.team_id)
         self.cid2name = self.make_cid2name(channels)
         self.id2time = self.get_last_post_time(channels)
+
+        all_channel_post = self.matter.get_posts(self.team_id, channels, 0, 2)
+        all_posts = [posts['posts'][post] for posts in all_channel_post for post in posts['order']]
+        all_posts.sort(key=itemgetter('create_at'), reverse=False)
+        [self.buf_write(post) for post in all_posts]
+
         self.updater()
 
     def updater(self):
