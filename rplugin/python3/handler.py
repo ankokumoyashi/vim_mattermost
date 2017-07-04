@@ -16,12 +16,13 @@ team_name = 'your teamname'
 class Handler():
     def __init__(self, vim=None):
         self.vim = vim
+
+    @neovim.function('Mattermost')
+    def mattermost(self, args=None):
         self.matter = Mattermost(mattermost_url, login_id, password)
         self.team_id = self.matter.get_team_id(team_name)
         self.uid2name = self.make_uid2name(self.matter.get_users())
 
-    @neovim.function('Mattermost')
-    def mattermost(self, args=None):
         self.vim.command('botright 40vnew')
         self.buf = self.vim.current.buffer
         self.vim.command('set noequalalways')
