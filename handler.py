@@ -7,15 +7,10 @@ from operator import itemgetter
 from mattermost import Mattermost
 import neovim
 
-mattermost_url = 'http://masala.soft.fujitsu.com/'
-login_id = 'g.inatomi@jp.fujitsu.com'
-password = 'nin10gen'
-team_name = 'fjspf'
-
-#mattermost_url = 'http://localhost:8065/'
-#login_id = 'ankokumoyashi'
-#password = 'ankokumoyashi'
-#team_name = 'ponkotsu'
+mattermost_url = 'http://your.mattermost/'
+login_id = 'your id'
+password = 'your pass'
+team_name = 'your teamname'
 
 @neovim.plugin
 class Handler():
