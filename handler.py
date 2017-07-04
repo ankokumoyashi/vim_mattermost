@@ -7,15 +7,15 @@ from operator import itemgetter
 from mattermost import Mattermost
 import neovim
 
-#mattermost_url = 'http://masala.soft.fujitsu.com/'
-#login_id = 'g.inatomi@jp.fujitsu.com'
-#password = 'nin10gen'
-#team_name = 'fjspf'
+mattermost_url = 'http://masala.soft.fujitsu.com/'
+login_id = 'g.inatomi@jp.fujitsu.com'
+password = 'nin10gen'
+team_name = 'fjspf'
 
-mattermost_url = 'http://localhost:8065/'
-login_id = 'ankokumoyashi'
-password = 'ankokumoyashi'
-team_name = 'ponkotsu'
+#mattermost_url = 'http://localhost:8065/'
+#login_id = 'ankokumoyashi'
+#password = 'ankokumoyashi'
+#team_name = 'ponkotsu'
 
 @neovim.plugin
 class Handler():
@@ -28,6 +28,7 @@ class Handler():
 
     @neovim.function('Mattermost')
     def mattermost(self, args=None):
+        self.buf.append('Matter Most')
         channels = self.matter.get_channels(self.team_id)
         self.cid2name = self.make_cid2name(channels)
         self.id2time = self.get_last_post_time(channels)
@@ -64,8 +65,6 @@ class Handler():
     def check_post_time(self, channels):
         channels = [channel for channel in channels if channel['last_post_at'] > self.id2time[channel['id']]]
         return channels
-
-
 
 if __name__ == '__main__':
     hand = Handler()
