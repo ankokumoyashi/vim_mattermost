@@ -46,7 +46,7 @@ class Handler():
             if updated_channels:
                 all_channel_post = self.matter.get_posts(self.team_id, updated_channels, 0, 1)
                 all_posts = [posts['posts'][post] for posts in all_channel_post for post in posts['order']]
-                all_posts.sort(key=itemgetter('create_at'), reverse = True)
+                all_posts.sort(key=itemgetter('create_at'), reverse=True)
                 [self.buf_write(post) for post in all_posts]
 
     def buf_write(self, content):
