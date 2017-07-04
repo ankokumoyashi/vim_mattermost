@@ -16,14 +16,16 @@ team_name = 'your teamname'
 class Handler():
     def __init__(self, vim=None):
         self.vim = vim
-        self.buf = vim.current.buffer
         self.matter = Mattermost(mattermost_url, login_id, password)
         self.team_id = self.matter.get_team_id(team_name)
         self.uid2name = self.make_uid2name(self.matter.get_users())
 
     @neovim.function('Mattermost')
     def mattermost(self, args=None):
-        self.buf.append('Matter Most')
+        self.vim.command('botright 40vnew')
+        self.buf = self.vim.current.buffer
+        self.vim.command('set noequalalways')
+        self.vim.command('set filetype=python')
         channels = self.matter.get_channels(self.team_id)
         self.cid2name = self.make_cid2name(channels)
         self.id2time = self.get_last_post_time(channels)
