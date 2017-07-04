@@ -50,10 +50,10 @@ class Handler():
                 [self.buf_write(post) for post in all_posts]
 
     def buf_write(self, content):
-        self.buf.append(str(datetime.datetime.fromtimestamp(content['create_at']/1000.0)))
-        self.buf.append(self.cid2name[content['channel_id']] + ':' + self.uid2name[content['user_id']])
-        [self.buf.append(line) for line in content['message'].split('\n')]
-        self.buf.append('')
+        self.buf.append('-'*60, 1)
+        self.buf.append(str(datetime.datetime.fromtimestamp(content['create_at']/1000.0)), 2)
+        self.buf.append(self.cid2name[content['channel_id']] + ':' + self.uid2name[content['user_id']], 3)
+        [self.buf.append(line, i) for i, line in enumerate(content['message'].split('\n'), start=4)]
         return 1
 
     def make_uid2name(self, users):
